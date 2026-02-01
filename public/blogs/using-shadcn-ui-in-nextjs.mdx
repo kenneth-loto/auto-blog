@@ -1,0 +1,40 @@
+---
+title: "Using shadcn UI in Next.js Projects"
+date: "2026-02-01"
+author: 
+  name: "Kenneth Loto"
+  handle: "@kennethloto"
+  avatar: "/avatars/kenneth_loto.jpg"
+---
+
+Next.js is a powerful framework for building React applications, and Shadcn provides a set of beautiful, accessible, and reusable components to make your development workflow faster and cleaner. In this post, we'll go through how to integrate shadcn UI into a Next.js project and start using it in your pages.
+
+## What is shadcn?
+
+[Shadcn](https://ui.shadcn.com) is a component library built on top of Tailwind CSS. It focuses on modular, customizable, and accessible components for React applications. Key features include:
+
+- Lightweight and fast  
+- Fully TypeScript-ready  
+- Seamless integration with modern frameworks like Next.js  
+- Pre-styled, accessible UI components for faster development  
+
+Essentially, shadcn UI saves you time by giving you ready-made components that you can customize to match your design system.
+
+## Example: Using a Button Component
+
+You can directly import React components in MDX. Here's an example using the `Button` from shadcn UI:
+
+<Button variant="default" onClick={() => alert("Hello from shadcn UI!")}>
+  Click Me
+</Button>
+
+You can customize the button using Tailwind classes or variants.
+
+## Setting Up a Next.js Project
+
+If you don’t have a Next.js project yet, you can create one easily with the following commands:
+
+```bash
+npx create-next-app@latest my-next-app
+cd my-next-app
+npm run dev
