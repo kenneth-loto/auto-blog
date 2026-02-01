@@ -12,6 +12,7 @@ const blogs = [
   {
     id: 1,
     title: "Designing Better Blog Layouts for Enhanced Readability",
+    slug: "designing-better-blog-layouts-for-enhanced-readability",
     image: "/images/test.jpeg",
     tags: ["UI", "Design", "UX"],
   },
@@ -19,12 +20,14 @@ const blogs = [
     id: 2,
     title:
       "Why Readability Matters in Web Design and Development for Beginners Part 1",
+    slug: "why-readability-matters-in-web-design-and-development-for-beginners-part-1",
     image: "/images/test2.jpg",
     tags: ["Typography", "Frontend"],
   },
   {
     id: 3,
-    title: "Using shadcn UI in Next.js Projects: A Comprehensive Guide",
+    title: "Using shadcn UI in Next.js",
+    slug: "using-shadcn-ui-in-nextjs",
     image: "/images/placeholder.png",
     tags: ["Next.js", "shadcn", "Tailwind"],
   },
@@ -38,7 +41,7 @@ export function BlogSection() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {blogs.map((blog) => (
-            <Link key={blog.id} href={`/blog/${blog.id}`} className="block">
+            <Link key={blog.id} href={`/blog/${blog.slug}`} className="block">
               <Card className="group h-full max-w-sm pt-0 overflow-hidden transition-shadow">
                 <div className="relative h-48">
                   <Image
