@@ -1,6 +1,7 @@
 import type { Response } from "@/lib/types";
 
 export async function generateTechTopic(): Promise<Response<string>> {
+  const OPEN_ROUTER_API_KEY = process.env.OPEN_ROUTER_API_KEY;
   const OPEN_ROUTER_URL = process.env.OPEN_ROUTER_URL;
   const TOPIC_GENERATOR_MODEL = process.env.TOPIC_GENERATOR_MODEL;
 
@@ -25,7 +26,7 @@ export async function generateTechTopic(): Promise<Response<string>> {
       signal: AbortSignal.timeout(30000),
 
       headers: {
-        Authorization: `Bearer ${process.env.OPEN_ROUTER_API_KEY}`,
+        Authorization: `Bearer ${OPEN_ROUTER_API_KEY}`,
         "Content-Type": "application/json",
       },
 
@@ -43,21 +44,21 @@ export async function generateTechTopic(): Promise<Response<string>> {
             Generate ONE technical blog topic.
 
             Rules:
-            - Exactly 2-6 words
-            - No punctuation
-            - Focus on a single technical concept, tool, or framework
-            - Avoid words: programming, coding
-            - Avoid repeating concepts or synonyms from previous topics
+              - Exactly 2-6 words
+              - No punctuation
+              - Focus on a single technical concept, tool, or framework
+              - Avoid words: programming, coding
+              - Avoid repeating concepts or synonyms from previous topics
 
             Examples:
-            - API Design Patterns
-            - GraphQL Performance
-            - Cloud DevOps
-            - Event Driven Architecture
-            - Type Safety in Codebases
-            - AI Assisted Testing
-            - Microservices Observability
-            - CI/CD Pipelines
+              - API Design Patterns
+              - GraphQL Performance
+              - Cloud DevOps
+              - Event Driven Architecture
+              - Type Safety in Codebases
+              - AI Assisted Testing
+              - Microservices Observability
+              - CI/CD Pipelines
 
             Return ONLY the topic text.
             Topic:
@@ -78,7 +79,9 @@ export async function generateTechTopic(): Promise<Response<string>> {
 
     const data = await res.json();
 
-    if (!data?.choices?.[0]?.message?.content) {
+    const content = data?.choices?.[0]?.message?.content;
+
+    if (!content) {
       return {
         success: false,
         error: "Invalid response structure from API",
@@ -87,7 +90,7 @@ export async function generateTechTopic(): Promise<Response<string>> {
 
     return {
       success: true,
-      data: data.choices[0].message.content.trim(),
+      data: content.trim(),
     };
   } catch (error) {
     if (error instanceof Error) {
