@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
-import { generateTechTopic } from "@/lib/agents/topic-generator";
+import { topicGeneratorAI } from "@/lib/agents/topic-generator";
 
 export async function GET() {
-  const result = await generateTechTopic();
+  const topic = await topicGeneratorAI();
 
-  if (result.success) {
+  if (topic.success) {
     return NextResponse.json(
       {
         agent: "Topic Generator",
-        output: result.data,
+        output: topic.data,
       },
       { status: 200 },
     );
@@ -17,7 +17,7 @@ export async function GET() {
   return NextResponse.json(
     {
       agent: "Topic Generator",
-      error: result.error,
+      error: topic.error,
     },
     { status: 500 },
   );

@@ -1,9 +1,16 @@
 import type { Response } from "@/lib/types";
 
-export async function generateTechTopic(): Promise<Response<string>> {
+export async function topicGeneratorAI(): Promise<Response<string>> {
   const OPEN_ROUTER_API_KEY = process.env.OPEN_ROUTER_API_KEY;
   const OPEN_ROUTER_URL = process.env.OPEN_ROUTER_URL;
   const TOPIC_GENERATOR_MODEL = process.env.TOPIC_GENERATOR_MODEL;
+
+  if (!OPEN_ROUTER_API_KEY) {
+    return {
+      success: false,
+      error: "OpenRouter API key is not defined in environment variables",
+    };
+  }
 
   if (!OPEN_ROUTER_URL) {
     return {
@@ -41,26 +48,33 @@ export async function generateTechTopic(): Promise<Response<string>> {
           {
             role: "user",
             content: `
-            Generate ONE technical blog topic.
+            Generate ONE highly specific technical blog topic.
 
-            Rules:
+            Requirements:
               - Exactly 2-6 words
               - No punctuation
               - Focus on a single technical concept, tool, or framework
-              - Avoid words: programming, coding
+              - Avoid generic words such as programming, coding, software
               - Avoid repeating concepts or synonyms from previous topics
+              - Topics must be novel, actionable, and relevant to modern software development or engineering
+              - Think like a technical blogger brainstorming engaging content
 
-            Examples:
-              - API Design Patterns
-              - GraphQL Performance
-              - Cloud DevOps
-              - Event Driven Architecture
-              - Type Safety in Codebases
-              - AI Assisted Testing
-              - Microservices Observability
-              - CI/CD Pipelines
+            Audience:
+              - Professional developers
+              - Technical decision-makers
+              - Readers interested in advanced or emerging technology trends
 
-            Return ONLY the topic text.
+            Format:
+              - Return ONLY the topic text
+              - No lists, no explanations
+
+            Examples of high-quality topics:
+              - GraphQL Performance Optimization
+              - Microservices Observability Practices
+              - TypeScript Generics Deep Dive
+              - AI Assisted Testing Workflows
+              - CI/CD Pipeline Automation
+
             Topic:
             `,
           },
