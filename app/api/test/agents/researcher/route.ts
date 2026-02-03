@@ -1,24 +1,27 @@
 import { NextResponse } from "next/server";
-import { researcher } from "@/lib/agents/researcher";
+import { researcherAI } from "@/lib/agents/researcher";
+import { topicGeneratorAI } from "@/lib/agents/topic-generator";
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const topic = searchParams.get("topic");
+export async function GET() {
+  const topic = await topicGeneratorAI();
 
-  if (!topic) {
+  if (!topic.success) {
     return NextResponse.json(
-      { agent: "Researcher", error: "Missing topic parameter" },
-      { status: 400 },
+      {
+        agent: "Topic Generator",
+        error: topic.error,
+      },
+      { status: 500 },
     );
   }
 
-  const result = await researcher(topic);
+  const research = await researcherAI(topic.data);
 
-  if (result.success) {
+  if (research.success) {
     return NextResponse.json(
       {
         agent: "Researcher",
-        data: result.data,
+        data: research.data,
       },
       { status: 200 },
     );
@@ -27,7 +30,7 @@ export async function GET(req: Request) {
   return NextResponse.json(
     {
       agent: "Researcher",
-      error: result.error,
+      error: research.error,
     },
     { status: 500 },
   );
